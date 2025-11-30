@@ -1,1026 +1,687 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhruv Pawar - Research Portfolio</title>
+    <title>Dhruv Pawar | AI Researcher & Data Scientist</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        midnight: '#020617',
+                        slate: {
+                            850: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        },
+                        primary: {
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #0f172a;
-            --accent: #06d6a0;
-            --accent-secondary: #f72585;
-            --neutral: #1e293b;
-            --neutral-light: #64748b;
-            --base-100: #0a0a0a;
-            --base-200: #111111;
-            --base-300: #1a1a1a;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --bg-dark: #020617;
+            --bg-card: rgba(30, 41, 59, 0.4);
+            --bg-sidebar: rgba(2, 6, 23, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --primary-glow: rgba(99, 102, 241, 0.15);
+            --sidebar-width: 260px;
+            --sidebar-width-collapsed: 72px;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--base-100);
-            color: white;
-            line-height: 1.6;
+            background-color: var(--bg-dark);
+            color: #f8fafc;
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
-        
-        .font-grotesk {
-            font-family: 'Space Grotesk', sans-serif;
+
+        /* Bento Grid Utilities */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1.5rem;
         }
-        
-        .font-mono {
-            font-family: 'JetBrains Mono', monospace;
+
+        @media (min-width: 768px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
-        
-        /* Glass morphism effects */
-        .glass {
-            background: var(--glass);
+
+        @media (min-width: 1024px) {
+            .bento-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .col-span-2 {
+                grid-column: span 2;
+            }
+
+            .col-span-3 {
+                grid-column: span 3;
+            }
+
+            .row-span-2 {
+                grid-row: span 2;
+            }
+        }
+
+        /* Premium Card */
+        .bento-card {
+            background: var(--bg-card);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-        
-        .glass-strong {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-        }
-        
-        /* Animated gradient backgrounds */
-        .gradient-bg {
-            background: linear-gradient(-45deg, #6366f1, #8b5cf6, #06d6a0, #f72585);
-            background-size: 400% 400%;
-            animation: gradientShift 8s ease infinite;
-        }
-        
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        /* Floating elements */
-        .floating {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        /* Glowing effects */
-        .glow {
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
-            transition: box-shadow 0.3s ease;
-        }
-        
-        .glow:hover {
-            box-shadow: 0 0 40px rgba(99, 102, 241, 0.5);
-        }
-        
-        /* Advanced sidebar */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 300px;
-            height: 100vh;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(25px);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 1000;
-            overflow-y: auto;
-            padding: 2rem;
-            transform: translateX(0);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .sidebar.hidden {
-            transform: translateX(-100%);
-        }
-        
-        .main-content {
-            margin-left: 300px;
-            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .main-content.full {
-            margin-left: 0;
-        }
-        
-        /* Navigation styles */
-        .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            margin: 0.5rem 0;
-            border-radius: 12px;
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .nav-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .nav-item:hover::before {
-            left: 100%;
-        }
-        
-        .nav-item:hover,
-        .nav-item.active {
-            color: white;
-            background: rgba(99, 102, 241, 0.2);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.2);
-        }
-        
-        .nav-item i {
-            margin-right: 0.75rem;
-            font-size: 1.1rem;
-        }
-        
-        /* Hero section enhancements */
-        .hero-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero-title {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff 0%, #6366f1 50%, #06d6a0 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1.5rem;
-            line-height: 1.1;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 2rem;
-            max-width: 600px;
-        }
-        
-        /* Advanced card designs */
-        .premium-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 2rem;
-            margin: 2rem 0;
+            border-radius: 24px;
+            padding: 1.75rem;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
-        
-        .premium-card::before {
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+            background: rgba(30, 41, 59, 0.6);
+        }
+
+        .bento-card::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.5), transparent);
+            inset: 0;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--primary-glow), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1;
         }
-        
-        .premium-card:hover {
-            transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(99, 102, 241, 0.3);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 40px rgba(99, 102, 241, 0.1);
+
+        .bento-card:hover::after {
+            opacity: 1;
         }
-        
-        /* Skill badges with animations */
-        .skill-tag {
-            display: inline-flex;
-            align-items: center;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            color: #a5b4fc;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin: 0.25rem;
-            transition: all 0.3s ease;
+
+        .card-content {
             position: relative;
-            overflow: hidden;
+            z-index: 2;
         }
-        
-        .skill-tag:hover {
-            transform: scale(1.05);
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3));
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-        }
-        
-        /* Timeline improvements */
-        .timeline-container {
-            position: relative;
-            padding-left: 2rem;
-        }
-        
-        .timeline-line {
-            position: absolute;
-            left: 1rem;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, #6366f1, #06d6a0);
-        }
-        
-        .timeline-item {
-            position: relative;
-            margin-bottom: 3rem;
-        }
-        
-        .timeline-dot {
-            position: absolute;
-            left: -2rem;
-            top: 1rem;
-            width: 12px;
-            height: 12px;
-            background: #6366f1;
-            border-radius: 50%;
-            border: 3px solid var(--base-100);
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
-        }
-        
-        /* Stats with animations */
-        .stat-card {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .stat-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-5px);
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #6366f1, #06d6a0);
-            background-clip: text;
+
+        /* Typography & Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 50%, #6366f1 100%);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
-            display: block;
-            margin-bottom: 0.5rem;
         }
-        
-        .stat-label {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+
+        .text-gradient-gold {
+            background: linear-gradient(135deg, #fde047 0%, #d97706 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        
-        /* Floating particles background */
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 50;
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-width-collapsed);
+        }
+
+        .sidebar.collapsed .hide-collapsed {
+            display: none;
+            opacity: 0;
+        }
+
+        .sidebar.collapsed .center-collapsed {
+            justify-content: center;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .sidebar.collapsed .nav-icon {
+            margin-right: 0;
+        }
+
+        .nav-item {
+            position: relative;
             overflow: hidden;
-            z-index: -1;
         }
-        
-        .particle {
+
+        .nav-item::before {
+            content: '';
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(99, 102, 241, 0.5);
-            border-radius: 50%;
-            animation: particleFloat 20s linear infinite;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: #6366f1;
+            transform: scaleY(0);
+            transition: transform 0.3s;
         }
-        
-        @keyframes particleFloat {
-            0% {
-                transform: translateY(100vh) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) translateX(100px);
-                opacity: 0;
-            }
+
+        .nav-item.active::before {
+            transform: scaleY(1);
         }
-        
-        /* Responsive design */
+
+        .nav-item.active {
+            background: rgba(99, 102, 241, 0.08);
+            color: #fff;
+        }
+
+        /* Main Content Transition */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .main-content.expanded {
+            margin-left: var(--sidebar-width-collapsed);
+        }
+
+        /* Mobile */
         @media (max-width: 1024px) {
             .sidebar {
                 transform: translateX(-100%);
+                position: fixed;
+                height: 100vh;
             }
-            
+
             .sidebar.open {
                 transform: translateX(0);
             }
-            
+
             .main-content {
-                margin-left: 0;
+                margin-left: 0 !important;
+            }
+
+            .toggle-btn {
+                display: none;
             }
         }
-        
-        /* Custom scrollbar */
+
+        /* Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
-        
+
         ::-webkit-scrollbar-track {
-            background: var(--base-200);
+            background: var(--bg-dark);
         }
-        
+
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(to bottom, #6366f1, #06d6a0);
-            border-radius: 4px;
+            background: #334155;
+            border-radius: 10px;
         }
-        
+
         ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(to bottom, #4f46e5, #059669);
+            background: #475569;
+        }
+
+        /* Skill Tag */
+        .skill-pill {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .skill-pill:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.4);
+            color: white;
+            transform: translateY(-1px);
         }
     </style>
 </head>
-<body>
-    <!-- Floating particles -->
-    <div class="particles" id="particles"></div>
-    
-    <!-- Mobile menu toggle -->
-    <button id="mobile-toggle" class="lg:hidden fixed top-6 left-6 z-50 glass rounded-full p-3 text-white hover:bg-white/10 transition-all duration-300">
-        <i class="fas fa-bars text-lg"></i>
+
+<body class="antialiased selection:bg-indigo-500/30">
+
+    <!-- Mobile Menu Button -->
+    <button id="mobile-toggle"
+        class="lg:hidden fixed top-5 left-5 z-[60] p-3 rounded-full bg-slate-900/80 backdrop-blur-md border border-white/10 text-white shadow-lg">
+        <i class="fas fa-bars"></i>
     </button>
-    
+
     <!-- Sidebar -->
-    <nav class="sidebar" id="sidebar">
-        <div class="mb-8">
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-2xl font-bold">
-                    DP
+    <aside id="sidebar" class="sidebar fixed top-0 left-0 h-screen flex flex-col py-6">
+        <!-- Toggle Button -->
+        <button id="sidebar-toggle"
+            class="toggle-btn absolute -right-3 top-8 w-6 h-6 bg-indigo-600 rounded-full flex items-center justify-center text-white text-xs shadow-lg hover:bg-indigo-500 transition-transform">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <!-- Profile -->
+        <div class="px-6 mb-8 flex flex-col items-center center-collapsed transition-all duration-300">
+            <div
+                class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-500/20 mb-3 shrink-0">
+                DP
+            </div>
+            <div class="hide-collapsed text-center overflow-hidden whitespace-nowrap">
+                <h2 class="font-heading font-bold text-lg">Dhruv Pawar</h2>
+                <p class="text-xs text-slate-400">Student Researcher</p>
+            </div>
+        </div>
+
+        <!-- Nav Links -->
+        <nav class="flex-1 px-3 space-y-1 overflow-y-auto">
+            <a href="#home"
+                class="nav-item flex items-center px-4 py-3 rounded-xl text-slate-400 hover:text-white transition-colors center-collapsed group active">
+                <i class="fas fa-home w-5 text-center nav-icon group-hover:text-indigo-400 transition-colors"></i>
+                <span class="ml-3 font-medium text-sm hide-collapsed">Overview</span>
+            </a>
+            <a href="#about"
+                class="nav-item flex items-center px-4 py-3 rounded-xl text-slate-400 hover:text-white transition-colors center-collapsed group">
+                <i class="fas fa-user w-5 text-center nav-icon group-hover:text-indigo-400 transition-colors"></i>
+                <span class="ml-3 font-medium text-sm hide-collapsed">About</span>
+            </a>
+            <a href="#research"
+                class="nav-item flex items-center px-4 py-3 rounded-xl text-slate-400 hover:text-white transition-colors center-collapsed group">
+                <i class="fas fa-flask w-5 text-center nav-icon group-hover:text-indigo-400 transition-colors"></i>
+                <span class="ml-3 font-medium text-sm hide-collapsed">Research</span>
+            </a>
+            <a href="#experience"
+                class="nav-item flex items-center px-4 py-3 rounded-xl text-slate-400 hover:text-white transition-colors center-collapsed group">
+                <i class="fas fa-briefcase w-5 text-center nav-icon group-hover:text-indigo-400 transition-colors"></i>
+                <span class="ml-3 font-medium text-sm hide-collapsed">Experience</span>
+            </a>
+            <a href="#skills"
+                class="nav-item flex items-center px-4 py-3 rounded-xl text-slate-400 hover:text-white transition-colors center-collapsed group">
+                <i class="fas fa-code w-5 text-center nav-icon group-hover:text-indigo-400 transition-colors"></i>
+                <span class="ml-3 font-medium text-sm hide-collapsed">Stack</span>
+            </a>
+            <a href="#contact"
+                class="nav-item flex items-center px-4 py-3 rounded-xl text-slate-400 hover:text-white transition-colors center-collapsed group">
+                <i
+                    class="fas fa-paper-plane w-5 text-center nav-icon group-hover:text-indigo-400 transition-colors"></i>
+                <span class="ml-3 font-medium text-sm hide-collapsed">Contact</span>
+            </a>
+        </nav>
+
+        <!-- Status -->
+        <div class="px-4 mt-auto hide-collapsed">
+            <div class="bg-slate-900/50 rounded-xl p-4 border border-white/5 backdrop-blur-sm">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="relative flex h-2 w-2">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wide">Available</span>
                 </div>
-                <h3 class="font-grotesk text-xl font-bold text-white mb-1">Dhruv Pawar</h3>
-                <p class="text-sm text-gray-400">AI/ML Researcher</p>
-            </div>
-            
-            <div class="space-y-2">
-                <a href="#hero" class="nav-item active">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
-                </a>
-                <a href="#about" class="nav-item">
-                    <i class="fas fa-user"></i>
-                    <span>About</span>
-                </a>
-                <a href="#research" class="nav-item">
-                    <i class="fas fa-flask"></i>
-                    <span>Research</span>
-                </a>
-                <a href="#experience" class="nav-item">
-                    <i class="fas fa-briefcase"></i>
-                    <span>Experience</span>
-                </a>
-                <a href="#skills" class="nav-item">
-                    <i class="fas fa-code"></i>
-                    <span>Skills</span>
-                </a>
-                <a href="#achievements" class="nav-item">
-                    <i class="fas fa-trophy"></i>
-                    <span>Achievements</span>
-                </a>
-                <a href="#contact" class="nav-item">
-                    <i class="fas fa-envelope"></i>
-                    <span>Contact</span>
-                </a>
+                <p class="text-xs text-slate-400 leading-relaxed">Open for Research Internships (Summer 2025)</p>
             </div>
         </div>
-        
-        <div class="mt-auto">
-            <div class="glass rounded-lg p-4 text-center">
-                <p class="text-xs text-gray-400 mb-2">Available for</p>
-                <p class="text-sm font-semibold text-green-400">Research Opportunities</p>
-            </div>
-        </div>
-    </nav>
-    
+    </aside>
+
     <!-- Main Content -->
-    <main class="main-content" id="main-content">
-        <!-- Hero Section -->
-        <section class="hero-container relative" id="hero">
-            <div id="vanta-bg" class="absolute inset-0 z-0"></div>
-            
-            <div class="container mx-auto px-8 relative z-10">
-                <div class="grid lg:grid-cols-2 gap-12 items-center min-h-screen">
-                    <!-- Hero Content -->
-                    <div class="space-y-8">
-                        <div>
-                            <div class="inline-flex items-center glass rounded-full px-4 py-2 mb-6">
-                                <div class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
-                                <span class="text-sm font-medium">Available for Research Internships</span>
-                            </div>
-                            
-                            <h1 class="hero-title font-grotesk">
-                                Dhruv Pawar
-                            </h1>
-                            
-                            <p class="hero-subtitle">
-                                Computer Science & Data Science Student passionate about AI/ML Research, 
-                                specializing in Large Language Models.
-                            </p>
-                        </div>
-                        
-                        <div class="flex flex-wrap gap-4">
-                            <div class="glass rounded-full px-6 py-3">
-                                <span class="text-indigo-300 font-medium">🤖 AI/ML Research</span>
-                            </div>
-                            <div class="glass rounded-full px-6 py-3">
-                                <span class="text-green-300 font-medium">📊 Data Science</span>
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-wrap gap-4">
-                            <a href="#contact" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:scale-105 glow">
-                                Get In Touch
-                            </a>
-                            <a href="#research" class="glass hover:bg-white/10 px-8 py-4 rounded-full font-semibold transition-all duration-300">
-                                View Research
-                            </a>
-                        </div>
+    <main id="main-content" class="main-content min-h-screen relative">
+        <!-- Background -->
+        <div id="vanta-bg" class="fixed inset-0 z-0 opacity-30 pointer-events-none"></div>
+
+        <div class="relative z-10 p-6 md:p-10 lg:p-14 max-w-[1600px] mx-auto">
+
+            <!-- Header / Hero -->
+            <section id="home" class="mb-16 pt-10 md:pt-0">
+                <div class="max-w-3xl">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-medium mb-6">
+                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                        Student Researcher & Data Scientist
                     </div>
-                    
-                    <!-- Stats Cards -->
-                    <div class="grid grid-cols-2 gap-6">
-                        <div class="stat-card floating" style="animation-delay: 0s;">
-                            <div class="stat-number">94.2%</div>
-                            <div class="stat-label">AI-Lawyer Accuracy</div>
-                        </div>
-                        <div class="stat-card floating" style="animation-delay: 1s;">
-                            <div class="stat-number">30%</div>
-                            <div class="stat-label">Query Optimization</div>
-                        </div>
-                        <div class="stat-card floating" style="animation-delay: 2s;">
-                            <div class="stat-number">200+</div>
-                            <div class="stat-label">Students Mentored</div>
-                        </div>
-                        <div class="stat-card floating" style="animation-delay: 3s;">
-                            <div class="stat-number">5+</div>
-                            <div class="stat-label">Research Projects</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- About Section -->
-        <section class="py-20 relative" id="about">
-            <div class="container mx-auto px-8 max-w-6xl">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-grotesk font-bold mb-6">
-                        <span class="bg-gradient-to-r from-indigo-400 to-green-400 bg-clip-text text-transparent">About Me</span>
-                    </h2>
-                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-                        Passionate researcher at the intersection of AI, machine learning, and data science
+                    <h1 class="font-heading text-5xl md:text-7xl font-bold mb-6 leading-tight tracking-tight">
+                        Hi, I'm <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">Dhruv
+                            Pawar</span> <br>
+                        Building <span class="text-gradient">Intelligent Systems</span>
+                    </h1>
+                    <p class="text-lg text-slate-400 leading-relaxed max-w-2xl mb-8">
+                        I specialize in <span class="text-white font-medium">Large Language Models</span>, <span
+                            class="text-white font-medium">NLP</span>, and <span class="text-white font-medium">RAG
+                            Architectures</span>.
+                        Currently a final-year student crafting production-ready AI solutions that bridge the gap
+                        between research and reality.
                     </p>
-                </div>
-                
-                <div class="premium-card">
-                    <div class="grid md:grid-cols-3 gap-8">
-                        <div class="md:col-span-2 space-y-6">
-                            <h3 class="text-2xl font-grotesk font-bold text-white">Education</h3>
-                            <div class="space-y-4">
-                                <h4 class="text-xl font-semibold text-indigo-300">D.Y. Patil International University</h4>
-                                <p class="text-gray-400">Pune, Maharashtra</p>
-                                <p class="text-gray-300">B.Tech in Computer Science Engineering (Honors in Data Science)</p>
-                                <div class="flex items-center space-x-2">
-                                    <i class="fas fa-calendar text-indigo-400"></i>
-                                    <span class="text-gray-400">2022 - 2026</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-col justify-center items-center text-center">
-                            <div class="w-24 h-24 bg-gradient-to-br from-indigo-500 to-green-500 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-graduation-cap text-3xl text-white"></i>
-                            </div>
-                            <p class="text-sm text-gray-400">Currently pursuing</p>
-                            <p class="font-semibold text-indigo-300">Final Year</p>
-                        </div>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#contact"
+                            class="px-6 py-3 bg-white text-slate-950 font-semibold rounded-lg hover:bg-indigo-50 transition-colors shadow-lg shadow-white/5">
+                            Let's Collaborate
+                        </a>
+                        <a href="assets/resume.jpg" target="_blank"
+                            class="px-6 py-3 bg-slate-800/50 text-white font-medium rounded-lg border border-white/10 hover:bg-slate-800 transition-colors backdrop-blur-md flex items-center gap-2">
+                            <i class="fas fa-file-alt"></i> View Resume
+                        </a>
                     </div>
                 </div>
-            </div>
-        </section>
-        
-        <!-- Research Section -->
-        <section class="py-20 relative" id="research">
-            <div class="container mx-auto px-8 max-w-6xl">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-grotesk font-bold mb-6">
-                        <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Research Grade Projects</span>
-                    </h2>
-                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-                        Cutting-edge AI/ML research with real-world applications
-                    </p>
-                </div>
-                
-                <div class="space-y-8">
-                    <div class="premium-card glow">
-                        <div class="flex items-start justify-between mb-6">
+            </section>
+
+            <!-- Bento Grid Layout -->
+            <div class="bento-grid">
+
+                <!-- Stats Card -->
+                <div class="bento-card col-span-1 md:col-span-2 lg:col-span-2">
+                    <div class="card-content flex flex-col justify-between h-full">
+                        <div class="flex justify-between items-start mb-8">
                             <div>
-                                <h3 class="text-2xl font-grotesk font-bold text-white mb-2">
-                                    AI-Lawyer: Legal Research Assistant with RAG Architecture
-                                </h3>
-                                <p class="text-indigo-300 font-medium mb-4">Advanced NLP • Production-Ready System</p>
+                                <h3 class="font-heading text-2xl font-bold mb-2">Research Impact</h3>
+                                <p class="text-slate-400 text-sm">Quantifiable contributions to the field</p>
                             </div>
-                            <div class="text-right">
-                                <div class="text-3xl font-bold text-green-400">94.2%</div>
-                                <div class="text-sm text-gray-400">Accuracy</div>
+                            <i class="fas fa-chart-line text-2xl text-indigo-400"></i>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="p-4 rounded-2xl bg-slate-900/50 border border-white/5">
+                                <div class="text-3xl font-bold text-white mb-1">94%</div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wider">Accuracy</div>
                             </div>
-                        </div>
-                        
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            <span class="skill-tag">LLM</span>
-                            <span class="skill-tag">LangChain</span>
-                            <span class="skill-tag">FAISS</span>
-                            <span class="skill-tag">Transformers</span>
-                            <span class="skill-tag">RAG</span>
-                        </div>
-                        
-                        <div class="space-y-4 text-gray-300">
-                            <p>• Engineered a production-ready RAG system for Indian legal document analysis, achieving <span class="text-green-400 font-semibold">94.2%</span> document processing and <span class="text-green-400 font-semibold">91.7%</span> legal query accuracy through systematic evaluation.</p>
-                            <p>• Implemented semantic search with FAISS and Sentence-Transformers, optimizing retrieval latency via advanced caching and index sharding to reduce processing time by <span class="text-green-400 font-semibold">40%</span>.</p>
-                            <p>• Architected a modular Streamlit UI with lazy loading, ensuring scalable performance and maintaining <span class="text-green-400 font-semibold">92%</span> answer extraction accuracy on unstructured legal inputs.</p>
+                            <div class="p-4 rounded-2xl bg-slate-900/50 border border-white/5">
+                                <div class="text-3xl font-bold text-white mb-1">6</div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wider">LLMs Tested</div>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-slate-900/50 border border-white/5">
+                                <div class="text-3xl font-bold text-white mb-1">200+</div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wider">Mentored</div>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-slate-900/50 border border-white/5">
+                                <div class="text-3xl font-bold text-white mb-1">5+</div>
+                                <div class="text-xs text-slate-500 uppercase tracking-wider">Projects</div>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="premium-card glow">
-                        <div class="flex items-start justify-between mb-6">
+                </div>
+
+                <!-- Profile Card -->
+                <div id="about"
+                    class="bento-card col-span-1 row-span-2 bg-gradient-to-b from-slate-800/40 to-slate-900/40">
+                    <div class="card-content text-center h-full flex flex-col items-center justify-center">
+                        <div
+                            class="w-32 h-32 rounded-full bg-slate-800 border-4 border-slate-700/50 mb-6 overflow-hidden relative group">
+                            <div
+                                class="absolute inset-0 bg-indigo-500/20 flex items-center justify-center text-4xl font-bold text-indigo-200">
+                                DP</div>
+                            <!-- Placeholder for actual image -->
+                            <!-- <img src="path/to/image.jpg" class="w-full h-full object-cover" alt="Dhruv"> -->
+                        </div>
+                        <h3 class="font-heading text-xl font-bold mb-2">Dhruv Pawar</h3>
+                        <p class="text-indigo-400 text-sm font-medium mb-4">Pune, India 🇮🇳</p>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                            Final-year B.Tech student at D.Y. Patil International University. Obsessed with optimizing
+                            LLMs and building intelligent agents.
+                        </p>
+                        <div class="flex gap-3 justify-center">
+                            <a href="https://github.com/DHRUV1817" target="_blank"
+                                class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-black transition-colors border border-white/10">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://linkedin.com/in/dhruv-pawar17" target="_blank"
+                                class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-[#0077b5] transition-colors border border-white/10">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="https://huggingface.co/Dhruv-18" target="_blank"
+                                class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-yellow-500 transition-colors border border-white/10">
+                                <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="HF"
+                                    class="w-6 h-6">
+                            </a>
+                            <a href="mailto:dupawar2004@gmail.com"
+                                class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white hover:bg-red-500 transition-colors border border-white/10">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 1: AI Lawyer -->
+                <div id="research" class="bento-card col-span-1 md:col-span-2 lg:col-span-1 group">
+                    <div class="card-content">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-3 rounded-lg bg-emerald-500/10 text-emerald-400">
+                                <i class="fas fa-gavel text-xl"></i>
+                            </div>
+                            <span
+                                class="px-3 py-1 rounded-full bg-slate-800 border border-white/5 text-xs text-slate-400">RAG
+                                System</span>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">
+                            AI-Lawyer</h3>
+                        <p class="text-slate-400 text-sm mb-6 line-clamp-3">
+                            Production-ready legal document analysis system. Achieved 94.2% accuracy using advanced RAG
+                            architecture with FAISS and Sentence-Transformers.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span class="skill-pill">LangChain</span>
+                            <span class="skill-pill">Python</span>
+                            <span class="skill-pill">FAISS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: Neural Data Analyst -->
+                <div class="bento-card col-span-1 group">
+                    <div class="card-content">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-3 rounded-lg bg-blue-500/10 text-blue-400">
+                                <i class="fas fa-database text-xl"></i>
+                            </div>
+                            <span
+                                class="px-3 py-1 rounded-full bg-slate-800 border border-white/5 text-xs text-slate-400">NLP
+                                to SQL</span>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">
+                            Neural Data Analyst</h3>
+                        <p class="text-slate-400 text-sm mb-6 line-clamp-3">
+                            Intelligent agent translating natural language to optimized SQL. Benchmarked 6 LLMs for
+                            cost-latency trade-offs.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span class="skill-pill">SQL</span>
+                            <span class="skill-pill">Benchmarking</span>
+                            <span class="skill-pill">Viz</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: Eloquence AI -->
+                <div class="bento-card col-span-1 group">
+                    <div class="card-content">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-3 rounded-lg bg-violet-500/10 text-violet-400">
+                                <i class="fas fa-microphone-alt text-xl"></i>
+                            </div>
+                            <span
+                                class="px-3 py-1 rounded-full bg-slate-800 border border-white/5 text-xs text-slate-400">Debate
+                                Coach</span>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold mb-2 group-hover:text-violet-400 transition-colors">
+                            Eloquence-AI</h3>
+                        <p class="text-slate-400 text-sm mb-6 line-clamp-3">
+                            AI Debate Coach using Chain-of-Thought reasoning. Detected 90% of speech patterns and
+                            reduced prep time by 65%.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span class="skill-pill">FastAPI</span>
+                            <span class="skill-pill">Streamlit</span>
+                            <span class="skill-pill">CoT</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: Advanced AI Reasoning Pro (Featured) -->
+                <div class="bento-card col-span-1 md:col-span-2 group">
+                    <a href="https://github.com/DHRUV1817/-Advanced-AI-Reasoning-System-Pro" target="_blank"
+                        class="absolute inset-0 z-10"></a>
+                    <div class="card-content h-full flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-3 rounded-lg bg-purple-500/10 text-purple-400">
+                                <i class="fas fa-brain text-xl"></i>
+                            </div>
+                            <span
+                                class="px-3 py-1 rounded-full bg-slate-800 border border-white/5 text-xs text-slate-400">Reasoning
+                                Platform</span>
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold mb-2 group-hover:text-purple-400 transition-colors">
+                            Reasoning System Pro</h3>
+                        <p class="text-slate-400 text-sm mb-6 max-w-2xl">
+                            Production-ready AI platform featuring Tree of Thoughts & Chain of Thought methodologies.
+                            Includes advanced caching, analytics, and a stunning dark theme UI.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span class="skill-pill">ToT/CoT</span>
+                            <span class="skill-pill">Groq</span>
+                            <span class="skill-pill">Gradio</span>
+                            <span class="skill-pill">Research</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5: NewsNinja 2.0 -->
+                <div class="bento-card col-span-1 group">
+                    <a href="https://github.com/DHRUV1817/NEWS-AI" target="_blank" class="absolute inset-0 z-10"></a>
+                    <div class="card-content h-full flex flex-col">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-3 rounded-lg bg-red-500/10 text-red-400">
+                                <i class="fas fa-newspaper text-xl"></i>
+                            </div>
+                            <span
+                                class="px-3 py-1 rounded-full bg-slate-800 border border-white/5 text-xs text-slate-400">AI
+                                News Analyzer</span>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold mb-2 group-hover:text-red-400 transition-colors">
+                            NewsNinja 2.0</h3>
+                        <p class="text-slate-400 text-sm mb-6 line-clamp-3">
+                            Super-powered news analyzer with 12-language audio generation, sentiment analysis, and smart
+                            caching.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            <span class="skill-pill">FastAPI</span>
+                            <span class="skill-pill">Streamlit</span>
+                            <span class="skill-pill">NLP</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tech Stack -->
+                <div id="skills" class="bento-card col-span-1 md:col-span-2">
+                    <div class="card-content">
+                        <h3 class="font-heading text-xl font-bold mb-6">Technical Arsenal</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div>
-                                <h3 class="text-2xl font-grotesk font-bold text-white mb-2">
-                                    Neural Data Analyst: AI-Powered Business Intelligence Suite
-                                </h3>
-                                <p class="text-purple-300 font-medium mb-4">LLM Benchmarking • Performance Analysis</p>
+                                <h4 class="text-sm font-semibold text-indigo-400 mb-3 uppercase tracking-wider">Core
+                                </h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="skill-pill">Python</span>
+                                    <span class="skill-pill">Java</span>
+                                    <span class="skill-pill">SQL</span>
+                                    <span class="skill-pill">JavaScript</span>
+                                    <span class="skill-pill">Git</span>
+                                    <span class="skill-pill">Docker</span>
+                                </div>
                             </div>
-                            <div class="text-right">
-                                <div class="text-3xl font-bold text-purple-400">6</div>
-                                <div class="text-sm text-gray-400">LLMs Tested</div>
+                            <div>
+                                <h4 class="text-sm font-semibold text-indigo-400 mb-3 uppercase tracking-wider">AI / ML
+                                </h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="skill-pill">PyTorch</span>
+                                    <span class="skill-pill">TensorFlow</span>
+                                    <span class="skill-pill">LangChain</span>
+                                    <span class="skill-pill">HuggingFace</span>
+                                    <span class="skill-pill">RAG</span>
+                                    <span class="skill-pill">LLMs</span>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="flex flex-wrap gap-2 mb-6">
-                            <span class="skill-tag">SQL</span>
-                            <span class="skill-tag">LLMs</span>
-                            <span class="skill-tag">Performance Analysis</span>
-                            <span class="skill-tag">Natural Language Processing</span>
-                        </div>
-                        
-                        <div class="space-y-4 text-gray-300">
-                            <p>• Architected an intelligent agent that translates natural language queries into optimized SQL, enabling automated data retrieval and visualization from relational databases.</p>
-                            <p>• Designed a robust benchmarking framework to systematically evaluate six LLMs on latency, accuracy, and cost, informing optimal model selection for resource-constrained deployments.</p>
                         </div>
                     </div>
-                    <div class="premium-card glow">
-    <div class="flex items-start justify-between mb-6">
-        <div>
-            <h3 class="text-2xl font-grotesk font-bold text-white mb-2">
-                Eloquence-AI: Intelligent Debate Training Platform
-            </h3>
-            <p class="text-purple-300 font-medium mb-4">Python • FastAPI • Streamlit • NLP • Chain-of-Thought</p>
-        </div>
-        <div class="text-right">
-            <div class="text-3xl font-bold text-purple-400">40%</div>
-            <div class="text-sm text-gray-400">Performance Gain</div>
-        </div>
-    </div>
-    
-    <div class="flex flex-wrap gap-2 mb-6">
-        <span class="skill-tag">Python</span>
-        <span class="skill-tag">FastAPI</span>
-        <span class="skill-tag">Streamlit</span>
-        <span class="skill-tag">NLP</span>
-        <span class="skill-tag">Chain-of-Thought</span>
-    </div>
-    
-    <div class="space-y-4 text-gray-300">
-        <p>• Built an AI Debate Coach leveraging NLP and Chain-of-Thought reasoning with custom prompt templates, reducing preparation time by 65% and detecting 90% of common speech pattern issues via quantitative linguistic analysis.</p>
-        <p>• Developed a FastAPI backend and Streamlit frontend with counterpoint generation and steelmanning engines, incorporating optimized retrieval mechanisms that improved debate performance metrics by 40% across 5 key evaluation criteria.</p>
-    </div>
-</div>
+                </div>
 
-                </div>
-            </div>
-        </section>
-        
-        <!-- Experience Section -->
-        <section class="py-20 relative" id="experience">
-            <div class="container mx-auto px-8 max-w-6xl">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-grotesk font-bold mb-6">
-                        <span class="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Experience</span>
-                    </h2>
-                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-                        Professional journey in AI/ML and software development
-                    </p>
-                </div>
-                
-                <div class="timeline-container">
-                    <div class="timeline-line"></div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="premium-card">
-                            <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                                <div>
-                                    <h3 class="text-xl font-grotesk font-bold text-white">Open-Source Contributor</h3>
-                                    <p class="text-indigo-300 font-medium">Open Source AI/ML Community • Remote</p>
-                                </div>
-                                <div class="text-cyan-400 font-mono">May 2025 - Jun 2025</div>
+                <!-- Experience -->
+                <div id="experience" class="bento-card col-span-1 md:col-span-2 lg:col-span-3">
+                    <div class="card-content">
+                        <h3 class="font-heading text-xl font-bold mb-8">Professional Journey</h3>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <!-- Exp 1 -->
+                            <div class="relative pl-6 border-l border-slate-700">
+                                <div class="absolute -left-[5px] top-0 w-2.5 h-2.5 rounded-full bg-indigo-500"></div>
+                                <span class="text-xs font-mono text-indigo-400 mb-1 block">May 2025 - Jun 2025</span>
+                                <h4 class="font-bold text-white">Open Source Contributor</h4>
+                                <p class="text-sm text-slate-400 mt-2">Optimized core algorithms in generative AI
+                                    repositories. Mentored new contributors.</p>
                             </div>
-                            <ul class="space-y-2 text-gray-300">
-                                <li>• Contributed performance optimizations to core algorithmic components in generative AI repositories</li>
-                                <li>• Engaged in peer code reviews and mentored new contributors, enhancing project documentation</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <div class="premium-card">
-                            <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                                <div>
-                                    <h3 class="text-xl font-grotesk font-bold text-white">Software Development Intern</h3>
-                                    <p class="text-indigo-300 font-medium">• Surat, Gujarat</p>
-                                </div>
-                                <div class="text-cyan-400 font-mono">May 2024 - Aug 2024</div>
+                            <!-- Exp 2 -->
+                            <div class="relative pl-6 border-l border-slate-700">
+                                <div class="absolute -left-[5px] top-0 w-2.5 h-2.5 rounded-full bg-slate-600"></div>
+                                <span class="text-xs font-mono text-slate-500 mb-1 block">May 2024 - Aug 2024</span>
+                                <h4 class="font-bold text-white">Software Dev Intern</h4>
+                                <p class="text-sm text-slate-400 mt-2">Reduced SQL query execution time by 30%.
+                                    Refactored Java enterprise apps.</p>
                             </div>
-                            <ul class="space-y-2 text-gray-300">
-                                <li>• Analyzed and optimized complex SQL queries achieving <span class="text-green-400 font-semibold">30% reduction</span> in execution time</li>
-                                <li>• Debugged and refactored Java enterprise applications by implementing more efficient algorithms</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item">
-    <div class="timeline-dot"></div>
-    <div class="premium-card">
-        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
-            <div>
-                <h3 class="text-xl font-grotesk font-bold text-white">Research Community Intern</h3>
-                <p class="text-indigo-300 font-medium">Pregrad Research Community • Remote</p>
-            </div>
-            <div class="text-cyan-400 font-mono">Apr 2023 - May 2023</div>
-        </div>
-        <ul class="space-y-2 text-gray-300">
-            <li>• Analyzed the needs of <span class="text-green-400 font-semibold">200+ student researchers</span> to develop and promote targeted educational resources on AI/ML and research methodologies.</li>
-            <li>• Acted as a key liaison between subject-matter experts and the student community to foster a collaborative academic environment.</li>
-        </ul>
-    </div>
-</div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Skills Section -->
-        <section class="py-20 relative" id="skills">
-            <div class="container mx-auto px-8 max-w-6xl">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-grotesk font-bold mb-6">
-                        <span class="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">Technical Skills</span>
-                    </h2>
-                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-                        Expertise across AI/ML, programming, and modern tech stack
-                    </p>
-                </div>
-                
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="premium-card">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-code text-white text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-grotesk font-bold text-white">Programming Languages</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag">Python</span>
-                            <span class="skill-tag">Java</span>
-                            <span class="skill-tag">SQL</span>
-                        </div>
-                    </div>
-                    
-                    <div class="premium-card">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-brain text-white text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-grotesk font-bold text-white">AI/ML Technologies</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag">Natural Language Processing</span>
-                            <span class="skill-tag">Large Language Models</span>
-                            <span class="skill-tag">RAG Architecture</span>
-                            <span class="skill-tag">Deep Learning</span>
-                            <span class="skill-tag">Model Evaluation</span>
-                            <span class="skill-tag">Prompt Engineering</span>
-                            <span class="skill-tag">Vector Databases</span>
-                        </div>
-                    </div>
-                    
-                    <div class="premium-card">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-layer-group text-white text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-grotesk font-bold text-white">Frameworks & Libraries</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag">PyTorch</span>
-                            <span class="skill-tag">TensorFlow</span>
-                            <span class="skill-tag">LangChain</span>
-                            <span class="skill-tag">Transformers</span>
-                            <span class="skill-tag">Scikit-learn</span>
-                            <span class="skill-tag">FAISS</span>
-                            <span class="skill-tag">Pandas</span>
-                            <span class="skill-tag">NumPy</span>
-                            <span class="skill-tag">Streamlit</span>
-                        </div>
-                    </div>
-                    
-                    <div class="premium-card">
-                        <div class="flex items-center mb-6">
-                            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mr-4">
-                                <i class="fas fa-tools text-white text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-grotesk font-bold text-white">Tools & Platforms</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag">Git & GitHub</span>
-                            <span class="skill-tag">Docker</span>
-                            <span class="skill-tag">Jupyter</span>
-                            <span class="skill-tag">Google Colab</span>
-                            <span class="skill-tag">MySQL</span>
-                            <span class="skill-tag">SQL Server</span>
-                            <span class="skill-tag">Performance Optimization</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Achievements Section -->
-        <section class="py-20 relative" id="achievements">
-            <div class="container mx-auto px-8 max-w-6xl">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-grotesk font-bold mb-6">
-                        <span class="bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">Achievements</span>
-                    </h2>
-                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-                        Recognition for excellence in AI/ML research and development
-                    </p>
-                </div>
-                
-                <div class="space-y-6">
-                    <div class="premium-card glow">
-                        <div class="flex items-start space-x-6">
-                            <div class="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-trophy text-white text-2xl"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="text-xl font-grotesk font-bold text-white mb-2">Top Performer, Dev-Clash 24-Hour Hackathon</h3>
-                                <p class="text-gray-300">Architected and deployed a novel AI-powered educational chatbot, leveraging LLMs and adaptive learning algorithms to deliver personalized, real-time student support.</p>
-                                <div class="mt-4 inline-flex items-center text-yellow-400">
-                                    <i class="fas fa-award mr-2"></i>
-                                    <span class="font-medium">Recognized for Innovation</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="premium-card glow">
-                        <div class="flex items-start space-x-6">
-                            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-full flex items-center justify-center flex-shrink-0">
-                                <i class="fab fa-github text-white text-2xl"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="text-xl font-grotesk font-bold text-white mb-2">Open Source AI/ML Contributor</h3>
-                                <p class="text-gray-300">Recognized for contributions to enterprise-grade generative AI libraries, focused on performance optimization and algorithm debugging.</p>
-                                <div class="mt-4 inline-flex items-center text-purple-400">
-                                    <i class="fas fa-code-branch mr-2"></i>
-                                    <span class="font-medium">Multiple Contributions</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="premium-card glow">
-                        <div class="flex items-start space-x-6">
-                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-medal text-white text-2xl"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="text-xl font-grotesk font-bold text-white mb-2">Finalist, MaTPO Maharashtra State Competition</h3>
-                                <p class="text-gray-300">Distinguished among thousands of participants for exceptional analytical reasoning, critical thinking, and technical communication skills (2025).</p>
-                                <div class="mt-4 inline-flex items-center text-blue-400">
-                                    <i class="fas fa-users mr-2"></i>
-                                    <span class="font-medium">Top 1% of Participants</span>
-                                </div>
+                            <!-- Exp 3 -->
+                            <div class="relative pl-6 border-l border-slate-700">
+                                <div class="absolute -left-[5px] top-0 w-2.5 h-2.5 rounded-full bg-slate-600"></div>
+                                <span class="text-xs font-mono text-slate-500 mb-1 block">Apr 2023 - May 2023</span>
+                                <h4 class="font-bold text-white">Research Intern</h4>
+                                <p class="text-sm text-slate-400 mt-2">Developed resources for 200+ student researchers.
+                                    Community liaison.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        
-        <!-- Contact Section -->
-        <section class="py-20 relative" id="contact">
-            <div class="container mx-auto px-8 max-w-6xl">
-                <div class="text-center mb-16">
-                    <h2 class="text-4xl md:text-5xl font-grotesk font-bold mb-6">
-                        <span class="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">Let's Connect</span>
-                    </h2>
-                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-                        Ready to contribute to groundbreaking AI/ML research projects
-                    </p>
-                </div>
-                
-                <div class="premium-card glow text-center max-w-4xl mx-auto">
-                    <div class="mb-8">
-                        <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <i class="fas fa-rocket text-white text-3xl"></i>
-                        </div>
-                        <p class="text-lg text-gray-300 mb-6">
-                            I'm actively seeking research internship opportunities in AI/ML, particularly in Natural Language Processing, 
-                            Large Language Models, and Data Science. Let's collaborate on cutting-edge research that pushes the boundaries of what's possible.
+
+                <!-- Contact CTA -->
+                <div id="contact"
+                    class="bento-card col-span-1 md:col-span-2 lg:col-span-3 bg-gradient-to-r from-indigo-900/40 to-slate-900/40 text-center">
+                    <div class="card-content flex flex-col items-center justify-center py-8">
+                        <h2 class="font-heading text-3xl font-bold mb-4">Ready to push boundaries?</h2>
+                        <p class="text-slate-400 max-w-xl mb-8">
+                            I'm currently looking for research internship opportunities where I can apply my skills in
+                            NLP and LLMs to solve complex problems.
                         </p>
-                    </div>
-                    
-                    <!-- Make sure Font Awesome (or your icon set) is loaded in the page for the <i> icons to show -->
-<div class="grid md:grid-cols-2 gap-6 mb-8" role="list">
-  <!-- Phone -->
-  <a href="tel:+917016674751"
-     class="glass p-4 rounded-xl transition-transform duration-200 hover:scale-105"
-     aria-label="Call +91 7016674751"
-     title="Call +91 7016674751"
-     role="listitem">
-    <div class="flex items-center justify-center space-x-3">
-      <i class="fas fa-mobile-alt text-indigo-400 text-xl" aria-hidden="true"></i>
-      <span class="text-white font-medium">+91 7016674751</span>
-    </div>
-  </a>
-
-  <!-- Email -->
-  <a href="mailto:dupawar2004@gmail.com"
-     class="glass p-4 rounded-xl transition-transform duration-200 hover:scale-105"
-     aria-label="Email dupawar2004@gmail.com"
-     title="Email dupawar2004@gmail.com"
-     role="listitem">
-    <div class="flex items-center justify-center space-x-3">
-      <i class="fas fa-envelope text-green-400 text-xl" aria-hidden="true"></i>
-      <span class="text-white font-medium">dupawar2004@gmail.com</span>
-    </div>
-  </a>
-
-  <!-- LinkedIn -->
-  <a href="https://linkedin.com/in/dhruv-pawar17"
-     target="_blank" rel="noopener noreferrer"
-     class="glass p-4 rounded-xl transition-transform duration-200 hover:scale-105"
-     aria-label="Open LinkedIn profile of Dhruv Pawar"
-     title="LinkedIn — Dhruv Pawar"
-     role="listitem">
-    <div class="flex items-center justify-center space-x-3">
-      <i class="fab fa-linkedin text-blue-400 text-xl" aria-hidden="true"></i>
-      <span class="text-white font-medium">LinkedIn Profile</span>
-    </div>
-  </a>
-
-  <!-- GitHub -->
-  <a href="https://github.com/DHRUV1817"
-     target="_blank" rel="noopener noreferrer"
-     class="glass p-4 rounded-xl transition-transform duration-200 hover:scale-105"
-     aria-label="Open GitHub profile of Dhruv"
-     title="GitHub — DHRUV1817"
-     role="listitem">
-    <div class="flex items-center justify-center space-x-3">
-      <i class="fab fa-github text-purple-400 text-xl" aria-hidden="true"></i>
-      <span class="text-white font-medium">GitHub Profile</span>
-    </div>
-  </a>
-
-  <!-- Hugging Face (using the provided remote SVG; will hide on error) -->
-  <a href="https://huggingface.co/Dhruv-18"
-   target="_blank" rel="noopener noreferrer"
-   class="glass p-4 rounded-xl transition-transform duration-200 hover:scale-105 flex items-center justify-center space-x-3"
-   aria-label="Hugging Face — Dhruv-18"
-   title="Hugging Face — Dhruv-18"
-   role="listitem">
-    <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg"
-         alt="Hugging Face logo"
-         class="w-6 h-6"
-         onerror="this.style.display='none'"/>
-    <span class="text-white font-medium">HuggingFace Profile</span>
-</a>
-</div>
-
-                    
-                    
-                    <div class="glass rounded-xl p-6">
-                        <h3 class="text-lg font-grotesk font-bold text-white mb-4">Research Interests</h3>
-                        <div class="flex flex-wrap justify-center gap-2">
-                            <span class="skill-tag">Natural Language Processing</span>
-                            <span class="skill-tag">Large Language Models</span>
-                            <span class="skill-tag">Retrieval-Augmented Generation</span>
-                            <span class="skill-tag">AI-powered Business Intelligence</span>
-                            <span class="skill-tag">Performance Optimization</span>
-                            <span class="skill-tag">Deep Learning</span>
-                        </div>
+                        <a href="mailto:dupawar2004@gmail.com"
+                            class="inline-flex items-center gap-3 px-8 py-4 bg-white text-slate-950 font-bold rounded-full hover:scale-105 transition-transform">
+                            <i class="fas fa-envelope"></i>
+                            dupawar2004@gmail.com
+                        </a>
                     </div>
                 </div>
-            </div>
-        </section>
-        
-        <!-- Footer -->
-        <footer class="py-12 border-t border-gray-800">
-            <div class="container mx-auto px-8 max-w-6xl">
-                <div class="text-center">
-                    <div class="flex justify-center space-x-8 mb-8">
-                        <a href="mailto:dupawar2004@gmail.com" class="text-gray-400 hover:text-indigo-400 transition-colors duration-300">
-                            <i class="fas fa-envelope text-2xl"></i>
-                        </a>
-                        <a href="https://linkedin.com/in/dhruv-pawar17" target="_blank" class="text-gray-400 hover:text-blue-400 transition-colors duration-300">
-                            <i class="fab fa-linkedin text-2xl"></i>
-                        </a>
-                        <a href="https://github.com/DHRUV1817" target="_blank" class="text-gray-400 hover:text-purple-400 transition-colors duration-300">
-                            <i class="fab fa-github text-2xl"></i>
-                        </a>
-                    </div>
-                    
-                    <div class="space-y-2">
-                        <p class="text-xl font-grotesk font-bold text-white">Dhruv Pawar</p>
-                        <p class="text-gray-400">AI/ML Researcher • Data Science Student • Open Source Contributor</p>
-                        <p class="text-sm text-gray-500 mt-4">
-                            Designed for research excellence • Available for international opportunities
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </footer>
+
+            </div> <!-- End Grid -->
+
+            <footer class="mt-20 text-center text-slate-600 text-sm pb-8">
+                <p>&copy; 2025 Dhruv Pawar. Crafted with <i class="fas fa-heart text-red-500/50 mx-1"></i> and Code.</p>
+            </footer>
+
+        </div>
     </main>
-    
+
     <script>
-        // Initialize particles background
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
-            
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particlesContainer.appendChild(particle);
-            }
-        }
-        
-        // Initialize Vanta.js background
+        // Vanta Background
         if (typeof VANTA !== 'undefined') {
             VANTA.NET({
                 el: "#vanta-bg",
@@ -1032,98 +693,89 @@
                 scale: 1.00,
                 scaleMobile: 1.00,
                 color: 0x6366f1,
-                backgroundColor: 0x0a0a0a,
-                points: 12.00,
-                maxDistance: 30.00,
-                spacing: 18.00
+                backgroundColor: 0x020617,
+                points: 9.00,
+                maxDistance: 22.00,
+                spacing: 18.00,
+                showDots: true
             });
         }
-        
-        // Mobile menu toggle
-        document.getElementById('mobile-toggle').addEventListener('click', function() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('main-content');
+
+        // Sidebar Logic
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        const toggleBtn = document.getElementById('sidebar-toggle');
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        // Toggle Sidebar (Desktop)
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+
+            // Rotate icon
+            const icon = toggleBtn.querySelector('i');
+            if (sidebar.classList.contains('collapsed')) {
+                icon.classList.remove('fa-chevron-left');
+                icon.classList.add('fa-chevron-right');
+            } else {
+                icon.classList.remove('fa-chevron-right');
+                icon.classList.add('fa-chevron-left');
+            }
+        });
+
+        // Mobile Menu
+        mobileToggle.addEventListener('click', () => {
             sidebar.classList.toggle('open');
         });
-        
-        // Smooth scrolling and active navigation
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetSection = document.querySelector(targetId);
-                
-                if (targetSection) {
-                    targetSection.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+
+        // Close mobile menu on click outside
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth < 1024) {
+                if (!sidebar.contains(e.target) && !mobileToggle.contains(e.target) && sidebar.classList.contains('open')) {
+                    sidebar.classList.remove('open');
                 }
-                
-                // Update active state
-                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Close mobile menu
-                if (window.innerWidth < 1024) {
-                    document.getElementById('sidebar').classList.remove('open');
-                }
+            }
+        });
+
+        // Mouse Tracking for Cards
+        document.querySelectorAll('.bento-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
             });
         });
-        
-        // Intersection Observer for active section highlighting
+
+        // Active Nav State (Intersection Observer)
         const observerOptions = {
             root: null,
-            rootMargin: '-20% 0px -80% 0px',
+            rootMargin: '-20% 0px -70% 0px',
             threshold: 0.1
         };
-        
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const id = entry.target.getAttribute('id');
-                    const activeNav = document.querySelector(`.nav-item[href="#${id}"]`);
-                    
-                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-                    if (activeNav) {
-                        activeNav.classList.add('active');
+                    if (id) {
+                        navItems.forEach(nav => {
+                            nav.classList.remove('active');
+                            if (nav.getAttribute('href') === `#${id}`) {
+                                nav.classList.add('active');
+                            }
+                        });
                     }
                 }
             });
         }, observerOptions);
-        
-        // Observe all sections
-        document.querySelectorAll('section[id]').forEach(section => {
+
+        document.querySelectorAll('section[id], div[id]').forEach(section => {
             observer.observe(section);
-        });
-        
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const mobileToggle = document.getElementById('mobile-toggle');
-            
-            if (!sidebar.contains(event.target) && 
-                !mobileToggle.contains(event.target) && 
-                sidebar.classList.contains('open')) {
-                sidebar.classList.remove('open');
-            }
-        });
-        
-        // Parallax scroll effects
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallaxElements = document.querySelectorAll('.floating');
-            
-            parallaxElements.forEach(element => {
-                const speed = 0.1;
-                element.style.transform = `translateY(${scrolled * speed}px)`;
-            });
-        });
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            createParticles();
         });
     </script>
 </body>
+
 </html>
